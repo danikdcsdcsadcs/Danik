@@ -41,9 +41,9 @@ function createHeart() {
     });
 
     // Удаляем сердце после завершения анимации
-    heart.addEventListener('animationend', () => {
-        heart.remove();
-    });
+    //heart.addEventListener('animationend', () => {
+  //      heart.remove();
+//    });
 }
 
 function startFallingHearts() {
