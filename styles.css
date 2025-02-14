@@ -53,12 +53,12 @@ body {
 
 #hearts-container {
     width: 100%;
-    height: 50%;
+    height: 100%;
 }
 
 .heart {
     position: absolute;
-    font-size: 30px;
+    font-size: 35px;
     user-select: none;
     animation: sway linear infinite; /* Добавляем анимацию покачивания */
 }
