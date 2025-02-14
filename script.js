@@ -35,7 +35,7 @@ function createHeart() {
         { transform: 'translateY(0)' },
         { transform: 'translateY(100vh)' }
     ], {
-        duration: Math.random() * 1000 + 2000, // случайная длительность
+        duration: Math.random() * 3000 + 2000, // случайная длительность
         easing: 'linear',
         fill: 'forwards'
     });
