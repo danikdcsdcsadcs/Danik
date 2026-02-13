@@ -37,20 +37,20 @@ function createFallingItem() {
     const randomIndex = Math.floor(Math.random() * items.length);
     item.textContent = items[randomIndex];
     
-    // Случайное положение по горизонтали
+    // Случайная позиция по горизонтали (0-100%)
     item.style.left = Math.random() * 100 + '%';
     
-    // Случайный размер
+    // Случайный размер (1.5rem - 3rem)
     const size = 1.5 + Math.random() * 1.5;
     item.style.fontSize = size + 'rem';
     
-    // Длительность падения от 4 до 6 секунд
+    // Случайная длительность падения от 4 до 6 секунд
     const duration = 4 + Math.random() * 2;
     item.style.animationDuration = duration + 's';
     
     container.appendChild(item);
     
-    // Удаляем элемент после завершения анимации
+    // Удаляем элемент после окончания анимации
     item.addEventListener('animationend', function() {
         item.remove();
     });
@@ -58,7 +58,7 @@ function createFallingItem() {
 
 function startFallingItems() {
     document.getElementById('hearts-container').innerHTML = '';
-    // Сразу создаём несколько штук для эффекта
+    // Создаём сразу несколько штук для эффекта
     for (let i = 0; i < 20; i++) {
         setTimeout(createFallingItem, i * 100);
     }
