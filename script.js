@@ -1,51 +1,85 @@
 document.getElementById('submit-btn').addEventListener('click', function() {
-    const name = document.getElementById('name-input').value;
+    const name = document.getElementById('name-input').value.trim();
     if (name) {
         localStorage.setItem('userName', name);
-        document.getElementById('input-screen').classList.add('hidden');
-        document.getElementById('heart-screen').classList.remove('hidden');
-        startFallingHearts();
+        switchScreen('input-screen', 'heart-screen');
+        startFallingItems();
+    } else {
+        alert('Пожалуйста, введите имя');
     }
 });
 
 document.getElementById('stop-btn').addEventListener('click', function() {
-    clearInterval(heartInterval);
-    document.getElementById('heart-screen').classList.add('hidden');
-    document.getElementById('final-screen').classList.remove('hidden');
-    const userName = localStorage.getItem('userName');
-    document.getElementById('user-name').innerText = userName;
+    clearInterval(fallInterval);
+    // Очищаем контейнер от падающих элементов
+    document.getElementById('hearts-container').innerHTML = '';
+    switchScreen('heart-screen', 'final-screen');
+    const userName = localStorage.getItem('userName') || 'друг';
+    document.getElementById('user-name').textContent = userName;
 });
 
-let heartInterval; // Интервал для создания сердечек
+function switchScreen(hideId, showId) {
+    document.getElementById(hideId).classList.add('hidden');
+    document.getElementById(showId).classList.remove('hidden');
+}
 
-function createHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerText = '❤️';
+// Массив с праздничными стикерами (эмодзи)
+const items = [
+    '❤️', '🧸', '🌸', '🍫', '🎀', '💖', '💝', '🌹', 
+    '💌', '🥰', '😘', '💋', '✨', '🎈', '🍬', '🧁'
+];
+
+let fallInterval;
+
+function createFallingItem() {
+    const container = document.getElementById('hearts-container');
+    const item = document.createElement('div');
+    item.className = 'falling-item';
     
-    // Настраиваем случайное положение по оси X
-    heart.style.left = Math.random() * 100 + 'vw'; // Случайная позиция X
-    heart.style.top = (Math.random(0) * 20) + 'px'; // Случайное смещение сверху
-
-    // Добавляем сердце в контейнер
-    document.getElementById('hearts-container').appendChild(heart);
-
-    // Анимация падения
-    heart.animate([
-        { transform: 'translateY(0)' },
-        { transform: 'translateY(100vh)' }
-    ], {
-        duration: Math.random() * 3000 + 2000, // случайная длительность
-        easing: 'linear',
-        fill: 'forwards'
+    // Случайный стикер из массива
+    const randomIndex = Math.floor(Math.random() * items.length);
+    item.textContent = items[randomIndex];
+    
+    // Случайная позиция по горизонтали (0-100%)
+    item.style.left = Math.random() * 100 + '%';
+    
+    // Случайный размер (от 1.5rem до 3rem)
+    const size = 1.5 + Math.random() * 1.5;
+    item.style.fontSize = size + 'rem';
+    
+    // Случайная длительность падения (от 2.5 до 5.5 секунд)
+    const duration = 2.5 + Math.random() * 3;
+    item.style.animationDuration = duration + 's, 3s'; // первое для fall, второе для sway
+    
+    // Небольшая задержка старта (чтобы не все падали одновременно)
+    const delay = Math.random() * 2;
+    item.style.animationDelay = `-${delay}s`; // отрицательная задержка, чтобы сразу начать с нужной позиции
+    
+    container.appendChild(item);
+    
+    // Удаляем элемент после завершения анимации падения
+    item.addEventListener('animationend', function(e) {
+        if (e.animationName === 'fall') {
+            item.remove();
+        }
     });
-
-    // Удаляем сердце после завершения анимации
-    //heart.addEventListener('animationend', () => {
-  //      heart.remove();
-//    });
 }
 
-function startFallingHearts() {
-    heartInterval = setInterval(createHeart, 200); // Создаём новые сердечки каждые 200 мс
+function startFallingItems() {
+    // Очищаем контейнер перед стартом (на случай повторного запуска)
+    document.getElementById('hearts-container').innerHTML = '';
+    // Создаём несколько элементов сразу для быстрого наполнения
+    for (let i = 0; i < 15; i++) {
+        setTimeout(createFallingItem, i * 100); // распределяем старт
+    }
+    // Запускаем регулярное создание
+    fallInterval = setInterval(createFallingItem, 300);
 }
+
+// Если пользователь уже вводил имя раньше, можно автоматически заполнить поле (опционально)
+window.addEventListener('load', function() {
+    const savedName = localStorage.getItem('userName');
+    if (savedName) {
+        document.getElementById('name-input').value = savedName;
+    }
+});
