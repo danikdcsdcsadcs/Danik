@@ -128,7 +128,7 @@ button:active {
     }
     100% {
         transform: translateY(110vh) rotate(720deg);
-        opacity: 0.6;
+        opacity: 0;
     }
 }
 
@@ -195,3 +195,4 @@ button:active {
     .falling-item { font-size: 1.5rem; }
     #stop-btn { padding: 10px 20px; min-width: 120px; }
 }
+
