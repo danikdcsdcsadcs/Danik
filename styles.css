@@ -116,26 +116,21 @@ button:active {
     user-select: none;
     pointer-events: none;
     will-change: transform;
-    animation: fall linear forwards, sway 3s ease-in-out infinite;
+    animation: fall linear forwards;
     opacity: 0.9;
     filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+    top: 0; /* важно для translateY */
 }
 
 @keyframes fall {
     0% {
-        transform: translateY(-10vh) rotate(0deg);
+        transform: translateY(-20vh);
         opacity: 1;
     }
     100% {
-        transform: translateY(110vh) rotate(720deg);
+        transform: translateY(100vh);
         opacity: 0;
     }
-}
-
-@keyframes sway {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-15px); }
-    75% { transform: translateX(15px); }
 }
 
 #final-screen {
@@ -195,4 +190,3 @@ button:active {
     .falling-item { font-size: 1.5rem; }
     #stop-btn { padding: 10px 20px; min-width: 120px; }
 }
-
