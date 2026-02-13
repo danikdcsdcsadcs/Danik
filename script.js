@@ -36,28 +36,20 @@ function createFallingItem() {
     const item = document.createElement('div');
     item.className = 'falling-item';
     
-    // Случайный стикер из массива
     const randomIndex = Math.floor(Math.random() * items.length);
     item.textContent = items[randomIndex];
     
-    // Случайная позиция по горизонтали (0-100%)
     item.style.left = Math.random() * 100 + '%';
     
-    // Случайный размер (от 1.5rem до 3rem)
     const size = 1.5 + Math.random() * 1.5;
     item.style.fontSize = size + 'rem';
     
-    // Случайная длительность падения (от 2.5 до 5.5 секунд)
-    const duration = 2.5 + Math.random() * 3;
-    item.style.animationDuration = duration + 's, 3s'; // первое для fall, второе для sway
-    
-    // Небольшая задержка старта (чтобы не все падали одновременно)
-    const delay = Math.random() * 2;
-    item.style.animationDelay = `-${delay}s`; // отрицательная задержка, чтобы сразу начать с нужной позиции
+    // Длительность падения от 4 до 6 секунд (примерно 5 сек)
+    const duration = 4 + Math.random() * 2;
+    item.style.animationDuration = duration + 's, 3s'; // fall, sway
     
     container.appendChild(item);
     
-    // Удаляем элемент после завершения анимации падения
     item.addEventListener('animationend', function(e) {
         if (e.animationName === 'fall') {
             item.remove();
@@ -83,3 +75,4 @@ window.addEventListener('load', function() {
         document.getElementById('name-input').value = savedName;
     }
 });
+
